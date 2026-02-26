@@ -98,3 +98,46 @@ Week 4:
 ## License
 
 MIT License
+## Getting Started
+
+Clone the repository:
+
+```
+git clone https://github.com/iambeyondclouds/chronostack.git
+cd chronostack
+```
+
+Install dependencies:
+
+```
+npm install
+```
+
+Run demo:
+
+```
+node demo/server.js
+```
+
+---
+
+## Project Structure
+
+```
+chronostack/
+ ├── core/          # Runtime engine modules
+ ├── demo/          # Example usage
+ ├── docs/          # Architecture documentation
+ ├── package.json
+ └── README.md
+```
+
+---
+
+## Example Output
+
+```
+Current State: { count: 1 }
+Replayed State: { count: 1 }
+State History: [...]
+```
