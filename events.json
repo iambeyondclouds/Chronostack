@@ -1,0 +1,32 @@
+[
+  {
+    "id": 0,
+    "timestamp": 1772068675637,
+    "type": "INCREMENT"
+  },
+  {
+    "id": 1,
+    "timestamp": 1772068675638,
+    "type": "INCREMENT"
+  },
+  {
+    "id": 2,
+    "timestamp": 1772068675638,
+    "type": "DECREMENT"
+  },
+  {
+    "id": 3,
+    "timestamp": 1772068701478,
+    "type": "INCREMENT"
+  },
+  {
+    "id": 4,
+    "timestamp": 1772068701479,
+    "type": "INCREMENT"
+  },
+  {
+    "id": 5,
+    "timestamp": 1772068701479,
+    "type": "DECREMENT"
+  }
+]

@@ -1,6 +1,25 @@
+const fs = require("fs");
+const path = require("path");
+
 class EventStore {
   constructor() {
-    this.events = [];
+    this.filePath = path.join(__dirname, "../events.json");
+    this.events = this.loadEvents();
+  }
+
+  loadEvents() {
+    if (fs.existsSync(this.filePath)) {
+      const data = fs.readFileSync(this.filePath, "utf-8");
+      return JSON.parse(data);
+    }
+    return [];
+  }
+
+  saveEvents() {
+    fs.writeFileSync(
+      this.filePath,
+      JSON.stringify(this.events, null, 2)
+    );
   }
 
   append(event) {
@@ -11,6 +30,8 @@ class EventStore {
     };
 
     this.events.push(newEvent);
+    this.saveEvents();
+
     return newEvent;
   }
 
