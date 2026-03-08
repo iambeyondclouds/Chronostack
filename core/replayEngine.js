@@ -1,11 +1,16 @@
-function replay(events, reducer) {
-  let state = { count: 0 };
-
-  for (let event of events) {
-    state = reducer(state, event);
+class ReplayEngine {
+  constructor(stateEngine) {
+    this.stateEngine = stateEngine;
   }
 
-  return state;
+  replay(events) {
+    return this.stateEngine.reconstruct(events);
+  }
+
+  replayUntil(events, version) {
+    const filteredEvents = events.filter(event => event.version <= version);
+    return this.stateEngine.reconstruct(filteredEvents);
+  }
 }
 
-module.exports = replay;
+module.exports = ReplayEngine;
