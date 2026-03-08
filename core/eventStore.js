@@ -3,35 +3,20 @@ const path = require("path");
 
 class EventStore {
   constructor() {
-    this.filePath = path.join(__dirname, "../events.json");
-    this.events = this.loadEvents();
-  }
-
-  loadEvents() {
-    if (fs.existsSync(this.filePath)) {
-      const data = fs.readFileSync(this.filePath, "utf-8");
-      return JSON.parse(data);
-    }
-    return [];
-  }
-
-  saveEvents() {
-    fs.writeFileSync(
-      this.filePath,
-      JSON.stringify(this.events, null, 2)
-    );
+    this.events = [];
+    this.version = 0;
   }
 
   append(event) {
     const newEvent = {
-      id: this.events.length,
-      timestamp: Date.now(),
-      ...event,
+      id: Date.now(),
+      type: event.type,
+      payload: event.payload,
+      timestamp: new Date().toISOString(),
+      version: ++this.version
     };
 
     this.events.push(newEvent);
-    this.saveEvents();
-
     return newEvent;
   }
 

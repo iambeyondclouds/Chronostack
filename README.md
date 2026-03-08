@@ -72,7 +72,6 @@ The entire system state can be rebuilt from the event log.
 Each state change is recorded with version tracking.
 
 ---
-
 ## Current Implementation (Prototype)
 
 - Append-only event store
