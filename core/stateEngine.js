@@ -1,33 +1,17 @@
 class StateEngine {
-  constructor(reducer) {
+  constructor(reducer, initialState = {}) {
     this.reducer = reducer;
-    this.state = { count: 0 };
-    this.history = [];
-    this.version = 0;
+    this.initialState = initialState;
   }
 
-  apply(event) {
-    this.state = this.reducer(this.state, event);
+  reconstruct(events) {
+    let state = this.initialState;
 
-    this.history.push({
-      version: this.version,
-      state: { ...this.state },
-      eventId: event.id,
-    });
+    for (const event of events) {
+      state = this.reducer(state, event);
+    }
 
-    this.version++;
-  }
-
-  getState() {
-    return this.state;
-  }
-
-  getHistory() {
-    return this.history;
-  }
-
-  getStateAtVersion(version) {
-    return this.history.find(h => h.version === version);
+    return state;
   }
 }
 
