@@ -12,6 +12,7 @@ class EventStore {
       id: Date.now(),
       type: event.type,
       payload: event.payload,
+      workflowId: event.workflowId || null,
       timestamp: new Date().toISOString(),
       version: ++this.version
     };
