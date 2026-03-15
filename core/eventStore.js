@@ -24,6 +24,22 @@ class EventStore {
   getAll() {
     return this.events;
   }
+
+  groupByWorkflow() {
+    const workflows = {};
+
+    for (const event of this.events) {
+      const workflowId = event.workflowId || "default";
+
+      if (!workflows[workflowId]) {
+        workflows[workflowId] = [];
+      }
+
+      workflows[workflowId].push(event);
+    }
+
+    return workflows;
+  }
 }
 
 module.exports = EventStore;
