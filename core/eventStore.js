@@ -41,6 +41,11 @@ class EventStore {
 
     return workflows;
   }
+  getWorkflowTrace(workflowId) {
+  return this.events
+    .filter(event => event.workflowId === workflowId)
+    .sort((a, b) => a.version - b.version);
+}
 }
 
 module.exports = EventStore;
