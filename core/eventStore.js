@@ -46,6 +46,21 @@ class EventStore {
     .filter(event => event.workflowId === workflowId)
     .sort((a, b) => a.version - b.version);
 }
+buildCausalityMap() {
+  const map = {};
+
+  for (const event of this.events) {
+    if (event.parentEventId) {
+      if (!map[event.parentEventId]) {
+        map[event.parentEventId] = [];
+      }
+
+      map[event.parentEventId].push(event.id);
+    }
+  }
+
+  return map;
+}
 }
 
 module.exports = EventStore;
