@@ -62,5 +62,18 @@ buildCausalityMap() {
   return map;
 }
 }
+buildCausalityTree(rootEventId) {
+  const map = this.buildCausalityMap();
 
+  function buildTree(nodeId) {
+    const children = map[nodeId] || [];
+
+    return {
+      id: nodeId,
+      children: children.map(childId => buildTree(childId))
+    };
+  }
+
+  return buildTree(rootEventId);
+}
 module.exports = EventStore;
