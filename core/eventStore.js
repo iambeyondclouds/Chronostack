@@ -63,11 +63,18 @@ buildCausalityMap() {
 
   return map;
 }
-}
+
 buildCausalityTree(rootEventId) {
   const map = this.buildCausalityMap();
+  const visited = new Set();
 
   function buildTree(nodeId) {
+    if (visited.has(nodeId)) {
+      return { id: nodeId, children: [] };
+    }
+
+    visited.add(nodeId);
+
     const children = map[nodeId] || [];
 
     return {
@@ -77,5 +84,6 @@ buildCausalityTree(rootEventId) {
   }
 
   return buildTree(rootEventId);
+}
 }
 module.exports = EventStore;
