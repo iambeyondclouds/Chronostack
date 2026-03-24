@@ -14,6 +14,8 @@ class EventStore {
       payload: event.payload,
       workflowId: event.workflowId || null,
       parentEventId: event.parentEventId || null,
+      status: event.status || "pending",
+      duration: event.duration || null,
       timestamp: new Date().toISOString(),
       version: ++this.version
     };
