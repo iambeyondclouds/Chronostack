@@ -21,6 +21,21 @@ export default function Home() {
         ))}
       </ul>
 
+  
+      <h2 style={{ marginTop: "20px" }}>State Diff</h2>
+      <ul>
+        {timeline.slice(1).map((step, i) => {
+          const prev = timeline[i].count;
+          const diff = step.count - prev;
+
+          return (
+            <li key={step.version}>
+              Version {step.version}: {prev} → {step.count} (Δ {diff})
+            </li>
+          );
+        })}
+      </ul>
+
       <h2 style={{ marginTop: "20px" }}>Causality</h2>
       <ul>
         <li>Loading...</li>
