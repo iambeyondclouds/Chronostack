@@ -28,6 +28,8 @@ store.append({ type: "SUB", payload: 2, workflowId: "wf1" });
 
 // server
 const server = http.createServer((req, res) => {
+
+  // ✅ EXISTING ROUTE
   if (req.url === "/data") {
     const events = store.getAll();
     const timeline = replayEngine.getReplayTimeline(events);
@@ -40,6 +42,26 @@ const server = http.createServer((req, res) => {
 
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(response));
+  }
+
+  // ✅ NEW ROUTE (ADDED)
+  else if (req.url.startsWith("/add")) {
+    let type = "ADD";
+    let payload = 1;
+
+    // check if subtract
+    if (req.url.includes("SUB")) {
+      type = "SUB";
+    }
+
+    store.append({
+      type,
+      payload,
+      workflowId: "wf1"
+    });
+
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "Event added", type }));
   }
 });
 
