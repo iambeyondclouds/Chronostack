@@ -11,9 +11,32 @@ export default function Home() {
       .catch(err => console.error(err));
   }, []);
 
+  const addEvent = (type) => {
+    fetch(`http://localhost:4000/add?type=${type}`)
+      .then(() => fetch("http://localhost:4000/data"))
+      .then(res => res.json())
+      .then(data => setData(data));
+  };
+
   return (
     <div style={{ padding: "30px", fontFamily: "Arial", lineHeight: "1.6" }}>
       <h1 style={{ marginBottom: "20px" }}>ChronoStack Dashboard</h1>
+
+      {/* Controls */}
+      <h2>Controls</h2>
+      <button 
+  onClick={() => addEvent("ADD")} 
+  style={{ padding: "8px 12px", background: "green", color: "white", border: "none", borderRadius: "5px" }}
+>
+  Add +1
+</button>
+
+<button 
+  onClick={() => addEvent("SUB")} 
+  style={{ marginLeft: "10px", padding: "8px 12px", background: "red", color: "white", border: "none", borderRadius: "5px" }}
+>
+  Subtract -1
+</button>
 
       {/* Final State */}
       <h2 style={{ marginTop: "20px" }}>Final State</h2>
@@ -47,7 +70,7 @@ export default function Home() {
           })}
       </ul>
 
-      {/*casuality*/} 
+      {/* Causality */}
       <h2 style={{ marginTop: "20px" }}>Causality</h2>
       <ul>
         <li>Event 1 → Event 2</li>
