@@ -8,14 +8,14 @@ class StateEngine {
   }
 
   reconstruct(events) {
-    let state = this.initialState;
+    let state = {...this.initialState}; // clone initial state
 
     for (const event of events) {
-      state = this.reducer(state, event);
+      state = this.reducer({...state}, event); //clone before reducer
     }
 
     // new addition
-    this.snapshot = state;
+    this.snapshot = {... state};
 
     return state;
   }

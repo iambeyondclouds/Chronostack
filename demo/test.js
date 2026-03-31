@@ -24,7 +24,7 @@ const replayEngine = new ReplayEngine(stateEngine);
 const first = store.append({
   type: "ADD",
   payload: 5,
-  workflowId: "wf1"
+  workflowId: "wf1" 
 });
 
 const second = store.append({
@@ -39,7 +39,7 @@ const third = store.append({
   payload: 2,
   workflowId: "wf1",
   parentEventId: second.id
-});
+});clearImmediate
 
 const events = store.getAll();
 

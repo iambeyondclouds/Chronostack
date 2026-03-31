@@ -1,25 +1,27 @@
 const EventStore = require("../core/eventStore");
 const reducer = require("../core/reducer");
 const StateEngine = require("../core/stateEngine");
-const replay = require("../core/replayEngine");
+const ReplayEngine = require("../core/replayEngine");
 
 const store = new EventStore();
-const engine = new StateEngine(reducer);
+const stateEngine = new StateEngine(reducer, { count: 0 });
+const replayEngine = new ReplayEngine(stateEngine);
 
-// Emit events
+// add events
 store.append({ type: "INCREMENT" });
 store.append({ type: "INCREMENT" });
 store.append({ type: "DECREMENT" });
 
-// Apply events
-store.getAll().forEach(event => {
-  engine.apply(event);
-});
+const events = store.getAll();
 
-console.log("Current State:", engine.getState());
+// get final state
+const finalState = stateEngine.reconstruct(events);
+console.log("Final State:", finalState);
 
-// Replay
-const replayedState = replay(store.getAll(), reducer);
+// replay
+const replayedState = replayEngine.replay(events);
 console.log("Replayed State:", replayedState);
-console.log("State History:", engine.getHistory());
 
+// timeline
+const timeline = replayEngine.getReplayTimeline(events);
+console.log("Timeline:", timeline);

@@ -1,14 +1,15 @@
 function reducer(state, event) {
-  switch (event.type) {
-    case "INCREMENT":
-      return { ...state, count: state.count + 1 };
+  const currentCount = state.count ?? 0;
 
-    case "DECREMENT":
-      return { ...state, count: state.count - 1 };
-
-    default:
-      return state;
+  if (event.type === "ADD") {
+    return { count: currentCount + event.payload };
   }
+
+  if (event.type === "SUB") {
+    return { count: currentCount - event.payload };
+  }
+
+  return { ...state }; // always return new object
 }
 
 module.exports = reducer;
