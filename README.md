@@ -1,158 +1,132 @@
 # ChronoStack
 
-A deterministic event-driven runtime and time-travel debugging engine for modern web applications.
+ChronoStack is an event-driven system that stores state changes as events instead of storing the final state directly.
 
-ChronoStack records every state transition as an immutable event and reconstructs application state deterministically from event history.
+The idea is simple: instead of updating state, we record what happened, and rebuild state whenever needed.
 
 ---
 
 ## Overview
 
-Modern web applications are asynchronous and event-driven. User actions trigger chains of operations such as API calls, database mutations, background jobs, and real-time updates.
+Most applications store only the latest state. Once state changes, previous values are lost.
 
-ChronoStack introduces a deterministic execution model where:
+ChronoStack takes a different approach:
 
-- Every state change is captured as an immutable event
-- Events are stored in an append-only log
-- State is derived from events (never directly mutated)
-- The system can replay execution at any time
-- State versions are preserved for inspection
+- Every change is stored as an event
+- Events are appended (never deleted)
+- State is reconstructed by replaying events
+- Any past state can be rebuilt
 
-This enables reproducibility, transparency, and time-travel debugging.
+This makes the system predictable and easier to debug.
 
 ---
 
 ## Problem
 
-In modern web systems:
+In real-world applications:
 
-- Execution order becomes unclear
-- State mutation history is lost
-- Logs do not capture full causality
-- Bugs are difficult to reproduce deterministically
-- Asynchronous workflows increase debugging complexity
+- State changes are hard to track
+- Debugging async behavior is difficult
+- Logs don’t give full history
+- Bugs are hard to reproduce
 
-Traditional logging is insufficient for reconstructing complete system behavior.
-
-ChronoStack aims to solve this by introducing deterministic state reconstruction and replayable execution.
+ChronoStack tries to solve this by keeping a complete history of state changes.
 
 ---
 
-## Why This Matters
+## How it works
 
-As systems become increasingly asynchronous and distributed, debugging complexity grows.
+Each action creates an event.
 
-A deterministic event-driven runtime provides:
+Example:
+ADD +5 ADD +3 SUB -2
 
-- Reproducible execution
-- Transparent state evolution
-- Improved developer observability
-- Clear causality tracking
-- Foundation for scalable system tooling
+Instead of storing `6`, we store all these events.
 
-ChronoStack explores infrastructure-level debugging for modern web systems.
+To get the state, we replay them step by step.
 
 ---
 
-## Core Concepts
+## Features
 
-### 1. Event-Driven Architecture  
-All state transitions occur through events.
-
-### 2. Immutability  
-State is derived from events and never directly mutated.
-
-### 3. Determinism  
-Given the same event sequence, the system reconstructs the same state.
-
-### 4. Replayability  
-The entire system state can be rebuilt from the event log.
-
-### 5. Versioned State History  
-Each state change is recorded with version tracking.
-
----
-## Current Implementation (Prototype)
-
-- Append-only event store
-- Persistent event storage using JSON
-- Reducer-based state engine
-- Versioned state tracking
-- Deterministic replay engine
-- Demo execution runner
-
-> This is an actively evolving prototype. Core runtime foundations are implemented and further development will occur throughout March.
+- Event store (append-only)
+- Replay engine (rebuilds state)
+- Reducer-based state updates
+- Timeline of versions
+- State difference between steps
+- Replay to any version (time travel)
+- Simple UI to interact with system
 
 ---
 
-## Roadmap (March Development Plan)
+## Demo
 
-### Week 1
-- Strengthen event store structure
-- Improve state snapshot system
+Start with initial events:
+Version 1 → 5 Version 2 → 8 Version 3 → 6
 
-### Week 2
-- Enhance replay engine
-- Introduce async workflow event tracking
+### Add +1
 
-### Week 3
-- Implement event causality graph
-- Add execution metadata and tracing
+Creates a new event:
+Version 4 → 7
 
-### Week 4
-- Build visual debugging dashboard
-- Add timeline and state diff viewer
+### Subtract -1
+Version 5 → 6
+
+### Replay
+
+Enter a version (e.g. 2):
+State at version 2 → 8
 
 ---
 
-## Getting Started
+## Tech Stack
 
-Clone the repository:
-
-```
-git clone https://github.com/iambeyondclouds/chronostack.git
-cd chronostack
-```
-
-Install dependencies:
-
-```
-npm install
-```
-
-Run demo:
-
-```
-node demo/server.js
-```
+- Frontend: Next.js
+- Backend: Node.js
+- Architecture: Event sourcing
 
 ---
 
 ## Project Structure
-
-```
-chronostack/
- ├── core/          # Runtime engine modules
- ├── demo/          # Example usage
- ├── docs/          # Architecture documentation
- ├── package.json
- └── README.md
-```
+chronostack/ ├── core/ ├── demo/ ├── chronostack-ui/ └── README.md
 
 ---
 
-## Future Scope
+## How to run
 
-- Persistent database-backed event storage
-- Multi-service integration
-- Plugin architecture
-- npm SDK packaging
-- Distributed execution mode
-- Advanced performance profiling
+Start backend:
+node demo/api.js
+
+Start frontend:
+cd chronostack-ui npm install npm run dev
+
+Open:
+http://localhost:3000⁠
+
+---
+
+## Key idea
+
+Store events, not state.
+
+State can always be rebuilt from events.
+
+---
+
+## Future improvements
+
+- Persistent storage (DB)
+- Better visualization
+- Multi-user workflows
+
+---
+
+## Note
+
+This is a prototype built for understanding event-driven systems and replay-based debugging.
 
 ---
 
 ## License
 
-MIT License
-```
+MIT
